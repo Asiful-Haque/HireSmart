@@ -1,0 +1,41 @@
+services:
+  backend:
+    build: .
+    container_name: nest-backend
+    ports:
+      - '3000:3000'
+    env_file:
+      - .env
+    volumes:
+      - ./src:/app/src         # Bind mount your local src folder to container's /app/src for not giving rebuilding again and again on change
+      - ./package.json:/app/package.json   # Optional: sync package.json
+      - ./package-lock.json:/app/package-lock.json  # Optional: sync package-lock.json
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:15
+    container_name: pg-db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: mydb
+    ports:
+      - '5432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - '8081:80'
+    depends_on:
+      - postgres
+
+volumes:
+  pgdata:
