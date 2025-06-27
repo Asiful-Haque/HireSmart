@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
+import { JobsModule } from './jobs/jobs.module';
 
 @Module({
   imports: [
@@ -14,7 +16,9 @@ import { UsersModule } from './users/users.module';
       autoLoadEntities: true,
       synchronize: true, // use migrations in prod
     }),
-    UsersModule
+    UsersModule,
+    AuthModule,
+    JobsModule
   ],
 })
 export class AppModule {}
