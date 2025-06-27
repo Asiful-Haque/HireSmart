@@ -7,9 +7,8 @@ services:
     env_file:
       - .env
     volumes:
-      - ./src:/app/src         # Bind mount your local src folder to container's /app/src for not giving rebuilding again and again on change
-      - ./package.json:/app/package.json   # Optional: sync package.json
-      - ./package-lock.json:/app/package-lock.json  # Optional: sync package-lock.json
+      - ./:/app
+      - /app/node_modules
     depends_on:
       - postgres
 
@@ -36,6 +35,9 @@ services:
       - '8081:80'
     depends_on:
       - postgres
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin # <-- Persist pgAdmin settings
 
 volumes:
   pgdata:
+  pgadmin_data:

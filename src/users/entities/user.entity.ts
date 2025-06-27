@@ -8,23 +8,23 @@ import {
 @Entity('users')
 export class User {
   @PrimaryGeneratedColumn('increment')
-  user_id: number;
+  user_id!: number;
 
   @Column()
-  full_name: string;
+  full_name!: string;
 
   @Column({ unique: true })
-  email_address: string;
+  email_address!: string;
 
   @Column()
-  password_hash: string;
+  password_hash!: string;
 
   @Column({ default: 'candidate' })
-  user_role: 'admin' | 'employer' | 'candidate';
+  user_role!: 'admin' | 'employer' | 'candidate';
 
   @Column({ default: false })
-  is_verified: boolean;
+  is_verified!: boolean;
 
   @CreateDateColumn()
-  created_at: Date;
+  created_at!: Date;
 }

@@ -12,10 +12,11 @@
     "baseUrl": "./",
     "incremental": true,
     "skipLibCheck": true,
+    "strict": true, // Recommended for best type-safety
     "strictNullChecks": true,
     "forceConsistentCasingInFileNames": true,
-    "noImplicitAny": false,
-    "strictBindCallApply": false,
-    "noFallthroughCasesInSwitch": false
+    "noImplicitAny": true, // Recommended to avoid hidden 'any' types
+    "strictBindCallApply": true,
+    "noFallthroughCasesInSwitch": true
   }
 }
