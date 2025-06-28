@@ -25,6 +25,15 @@ export class User {
   @Column({ default: false })
   is_verified!: boolean;
 
+  @Column({ type: 'text', nullable: true })
+  skills!: string | null;
+
+  @Column({ type: 'text', nullable: true })
+  location!: string | null;
+
+  @Column({ type: 'integer', nullable: true })
+  expected_salary!: number | null;
+
   @CreateDateColumn()
   created_at!: Date;
 }

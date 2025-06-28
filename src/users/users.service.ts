@@ -10,18 +10,26 @@ export class UsersService {
     email_address: string;
     password_hash: string;
     user_role: string;
+    skills?: string | null;
+    location?: string | null;
+    expected_salary?: number | null;
   }) {
     const sql = `
-      INSERT INTO users (full_name, email_address, password_hash, user_role)
-      VALUES ($1, $2, $3, $4)
-      RETURNING *;
-    `;
+    INSERT INTO users (full_name, email_address, password_hash, user_role, skills, location, expected_salary)
+    VALUES ($1, $2, $3, $4, $5, $6, $7)
+    RETURNING *;
+  `;
+
     const values = [
       user.full_name,
       user.email_address,
       user.password_hash,
       user.user_role,
+      user.skills ?? null,
+      user.location ?? null,
+      user.expected_salary ?? null,
     ];
+
     console.log(values);
     const result = await this.dataSource.query(sql, values);
     return result[0];
