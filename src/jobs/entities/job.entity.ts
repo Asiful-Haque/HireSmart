@@ -12,7 +12,7 @@ import {
 @Entity('jobs')
 export class Job {
   @PrimaryGeneratedColumn()
-  job_id!: number; 
+  job_id!: number;
 
   @Column()
   title!: string;
@@ -27,12 +27,15 @@ export class Job {
   salary!: number;
 
   @Column()
-  employer_id!: number; // Foreign key 
+  employer_id!: number; // Foreign key
 
   @ManyToOne(() => User)
   @JoinColumn({ name: 'employer_id', referencedColumnName: 'user_id' })
-  owner! : User;
+  owner!: User;
 
   @CreateDateColumn()
   created_at!: Date;
+
+  @Column({ default: false })
+  archived!: boolean;
 }

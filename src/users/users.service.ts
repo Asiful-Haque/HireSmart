@@ -32,4 +32,12 @@ export class UsersService {
     const result = await this.dataSource.query(sql, [email]);
     return result[0];
   }
+
+  async removeUnverifiedUsers() {
+    const sql = `
+      DELETE FROM users
+      WHERE is_verified = false AND created_at < NOW() - INTERVAL '7 days';
+    `;
+    await this.dataSource.query(sql);
+  }
 }

@@ -4,6 +4,7 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { JobsModule } from './jobs/jobs.module';
 import { AdminModule } from './admin/admin.module';
+import { CronModule } from './cronForTaskSchedule/cron.module';
 
 @Module({
   imports: [
@@ -20,7 +21,8 @@ import { AdminModule } from './admin/admin.module';
     UsersModule,
     AuthModule,
     JobsModule,
-    AdminModule
+    AdminModule,
+    CronModule
   ],
 })
 export class AppModule {}
