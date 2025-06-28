@@ -5,6 +5,7 @@ import { AuthModule } from './auth/auth.module';
 import { JobsModule } from './jobs/jobs.module';
 import { AdminModule } from './admin/admin.module';
 import { CronModule } from './cronForTaskSchedule/cron.module';
+import { MatchModule } from './job-engine/match.module';
 
 @Module({
   imports: [
@@ -22,7 +23,8 @@ import { CronModule } from './cronForTaskSchedule/cron.module';
     AuthModule,
     JobsModule,
     AdminModule,
-    CronModule
+    CronModule,
+    MatchModule
   ],
 })
 export class AppModule {}
