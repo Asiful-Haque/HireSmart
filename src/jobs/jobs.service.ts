@@ -34,9 +34,19 @@ export class JobsService {
     return result[0];
   }
 
-  async findAll() {
-    const sql = 'SELECT * FROM jobs ORDER BY created_at DESC';
-    return await this.dataSource.query(sql);
+  async findAll(keyword?: string, location?: string) { //It will avoid SQL injection
+    let sql = `SELECT * FROM jobs WHERE archived = false`;
+    const params = [];
+    if (keyword) {
+      sql += ` AND (title ILIKE $${params.length + 1} OR description ILIKE $${params.length + 1} OR required_skills ILIKE $${params.length + 1})`;
+      params.push(`%${keyword}%`);
+    }
+    if (location) {
+      sql += ` AND location ILIKE $${params.length + 1}`;
+      params.push(`%${location}%`);
+    }
+    sql += ` ORDER BY created_at DESC`;
+    return await this.dataSource.query(sql, params);
   }
 
   async findByEmployer(employer_id: string) {
