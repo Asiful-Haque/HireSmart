@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { CreateJobDto } from './dto/create-job.dto';
 import { UpdateJobDto } from './dto/update-job.dto';
+import sanitizeHtml from 'sanitize-html';
 
 @Injectable()
 export class JobsService {
@@ -17,16 +18,22 @@ export class JobsService {
       salary_max,
       employer_id,
     } = dto;
+
+      const cleanTitle = sanitizeHtml(title);
+      const cleanDescription = sanitizeHtml(description);
+      const cleanLocation = sanitizeHtml(location);
+      const cleanSkills = sanitizeHtml(required_skills);
+
     const sql = `
     INSERT INTO jobs (title, description, location, required_skills, salary_min, salary_max, employer_id, created_at)
     VALUES ($1, $2, $3, $4, $5, $6, $7, NOW())
     RETURNING *;
   `;
     const result = await this.dataSource.query(sql, [
-      title,
-      description,
-      location,
-      required_skills,
+      cleanTitle,
+      cleanDescription,
+      cleanLocation,
+      cleanSkills,
       salary_min,
       salary_max,
       employer_id,
@@ -67,6 +74,11 @@ export class JobsService {
 
     const updated = { ...existing, ...dto };
 
+    const cleanTitle = sanitizeHtml(updated.title);
+    const cleanDescription = sanitizeHtml(updated.description);
+    const cleanLocation = sanitizeHtml(updated.location);
+    const cleanSkills = sanitizeHtml(updated.required_skills);
+
     const sql = `
     UPDATE jobs
     SET title = $1,
@@ -79,10 +91,10 @@ export class JobsService {
     RETURNING *;
   `;
     const result = await this.dataSource.query(sql, [
-      updated.title,
-      updated.description,
-      updated.location,
-      updated.required_skills,
+      cleanTitle,
+      cleanDescription,
+      cleanLocation,
+      cleanSkills,
       updated.salary_min,
       updated.salary_max,
       id,

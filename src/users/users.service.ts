@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
+import sanitizeHtml from 'sanitize-html';
 
 @Injectable()
 export class UsersService {
@@ -21,12 +22,12 @@ export class UsersService {
   `;
 
     const values = [
-      user.full_name,
+      sanitizeHtml(user.full_name),
       user.email_address,
       user.password_hash,
       user.user_role,
-      user.skills ?? null,
-      user.location ?? null,
+      user.skills ? sanitizeHtml(user.skills) : null,
+      user.location ? sanitizeHtml(user.location) : null,
       user.expected_salary ?? null,
     ];
 

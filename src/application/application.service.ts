@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { CreateApplicationDto } from './dto/create-application.dto';
+import sanitizeHtml from 'sanitize-html';
 
 @Injectable()
 export class ApplicationsService {
@@ -14,6 +15,10 @@ export class ApplicationsService {
       application_status,
       location,
     } = dto;
+
+    const cleanCoverLetter = sanitizeHtml(cover_letter_text);
+    const cleanLocation = sanitizeHtml(location);
+    
     const sql = `
       INSERT INTO applications 
         (job_id, candidate_user_id, cover_letter_text, application_status, location, applied_at)
@@ -22,9 +27,9 @@ export class ApplicationsService {
     const result = await this.dataSource.query(sql, [
       job_id,
       candidate_user_id,
-      cover_letter_text,
+      cleanCoverLetter,
       application_status,
-      location,
+      cleanLocation,
     ]);
     return result[0];
   }
