@@ -8,17 +8,27 @@ export class JobsService {
   constructor(private readonly dataSource: DataSource) {}
 
   async create(dto: CreateJobDto) {
-    const { title, description, location, salary, employer_id } = dto;
+    const {
+      title,
+      description,
+      location,
+      required_skills,
+      salary_min,
+      salary_max,
+      employer_id,
+    } = dto;
     const sql = `
-      INSERT INTO jobs (title, description, location, salary, employer_id, created_at)
-      VALUES ($1, $2, $3, $4, $5, NOW())
-      RETURNING *;
-    `;
+    INSERT INTO jobs (title, description, location, required_skills, salary_min, salary_max, employer_id, created_at)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, NOW())
+    RETURNING *;
+  `;
     const result = await this.dataSource.query(sql, [
       title,
       description,
       location,
-      salary,
+      required_skills,
+      salary_min,
+      salary_max,
       employer_id,
     ]);
     return result[0];
@@ -48,19 +58,23 @@ export class JobsService {
     const updated = { ...existing, ...dto };
 
     const sql = `
-      UPDATE jobs
-      SET title = $1,
-          description = $2,
-          location = $3,
-          salary = $4
-      WHERE job_id = $5
-      RETURNING *;
-    `;
+    UPDATE jobs
+    SET title = $1,
+        description = $2,
+        location = $3,
+        required_skills = $4,
+        salary_min = $5,
+        salary_max = $6
+    WHERE job_id = $7
+    RETURNING *;
+  `;
     const result = await this.dataSource.query(sql, [
       updated.title,
       updated.description,
       updated.location,
-      updated.salary,
+      updated.required_skills,
+      updated.salary_min,
+      updated.salary_max,
       id,
     ]);
     return result[0];

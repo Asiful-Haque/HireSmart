@@ -8,7 +8,6 @@ import {
   JoinColumn,
 } from 'typeorm';
 
-
 @Entity('jobs')
 export class Job {
   @PrimaryGeneratedColumn()
@@ -20,11 +19,17 @@ export class Job {
   @Column()
   description!: string;
 
+  @Column('text')
+  required_skills!: string; 
+
   @Column()
   location!: string;
 
   @Column()
-  salary!: number;
+  salary_min!: number;
+
+  @Column()
+  salary_max!: number;
 
   @Column()
   employer_id!: number; // Foreign key
