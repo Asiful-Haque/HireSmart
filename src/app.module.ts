@@ -6,6 +6,7 @@ import { JobsModule } from './jobs/jobs.module';
 import { AdminModule } from './admin/admin.module';
 import { CronModule } from './cronForTaskSchedule/cron.module';
 import { MatchModule } from './job-engine/match.module';
+import { ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
   imports: [
@@ -19,12 +20,20 @@ import { MatchModule } from './job-engine/match.module';
       autoLoadEntities: true,
       synchronize: true, // use migrations in prod
     }),
+    ThrottlerModule.forRoot({ //Its for rate limiting for user per minute
+      throttlers: [
+        {
+          ttl: 60,
+          limit: 5,
+        },
+      ],
+    }),
     UsersModule,
     AuthModule,
     JobsModule,
     AdminModule,
     CronModule,
-    MatchModule
+    MatchModule,
   ],
 })
 export class AppModule {}

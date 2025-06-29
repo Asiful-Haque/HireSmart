@@ -5,13 +5,15 @@ import { RolesGuard } from 'src/auth/roles.guard';
 import { Roles } from 'src/auth/roles.decorator';
 import { AuthGuard } from '@nestjs/passport';
 import { ApplicationsService } from './application.service';
+import { Throttle, ThrottlerGuard } from '@nestjs/throttler';
 
 @Controller('applications')
 export class ApplicationsController {
   constructor(private readonly applicationsService: ApplicationsService) {}
 
   @Post()
-  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @UseGuards(AuthGuard('jwt'), RolesGuard, ThrottlerGuard)
+  @Throttle({ limit: 5, ttl: 60 } as any)
   @Roles('candidate')
   apply(@Body() dto: CreateApplicationDto) {
     return this.applicationsService.apply(dto);
