@@ -1,98 +1,189 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+ 
+#  HireSmart 💼
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A simplified job platform backend built with **NestJS**, **PostgreSQL**, supporting JWT-based authentication, role-based access control, job listings, job applications, and background processing.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## 🛠️ Tech Stack
 
-## Project setup
 
-```bash
-$ npm install
+**🖥️ Back-end:** Nest.js
+
+**🛢️ Database:** PostgreSQL
+
+**🔑 Authentication:** JWT (JSON Web Token)
+
+**🐳 Containerization:** Docker & Docker Compose
+
+**⏱️ Scheduler:** @nestjs/schedule
+
+**🛡️ Security:** Rate Limiting, Sanitization(XSS)
+
+
+
+
+
+
+
+
+
+
+## 🌟 Features
+1️⃣ Authentication & Authorization
+- JWT-based login/logout.
+- Roles: admin, employer, candidate.
+- Role-based route access using guards.
+
+2️⃣ For Employers
+- Create, update, delete job listings.
+- View their job listings.
+- View applications for their jobs.
+
+3️⃣ For Candidates
+- Browse available jobs with filters (keyword, location)
+- Apply to jobs.
+
+4️⃣  For Admins
+
+- View total metrics: jobs, users, applications
+- Background Processing
+- Match candidates to jobs (by skills, location, salary)
+- Log or queue notifications when matches are found
+
+
+5️⃣ Scheduled Tasks
+- Archive jobs older than 30 days (runs daily)
+- Remove unverified users older than 7 days (runs weekly)
+
+6️⃣ Performance Optimization
+
+- Prevent N+1 issues with proper query relations
+
+7️⃣ Security
+- Prevent SQL Injection via parameterized queries
+- XSS protection using sanitization
+- CSRF not applicable (Authorization header will be used)
+- Rate-limiting on login & application endpoints
+
+
+
+
+
+
+
+
+
+
+## 🔗 API Reference
+
+#### 🔐 Auth
+
+```http
+  POST /auth/register - Register a new user
+  POST /auth/login - Authenticate user and return a JWT token (5 req/min)
 ```
 
-## Compile and run the project
+#### 👤 Users
 
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+```http
+  POST /users - Create a new user
+  GET /users/:email - Find user by email
 ```
 
-## Run tests
+#### 💼 Jobs
 
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+```http
+  POST /jobs - Create a new job post (employer only)
+  GET /jobs - Fetch all job posts
+  GET /jobs/:id - Fetch a single job post by ID
+  GET /jobs/employer/:employer_id - Fetch jobs created by a specific employer
+  PUT /jobs/:id - Update a job post (employer only)
+  DELETE /jobs/:id - Delete a job post (employer only)
 ```
 
-## Deployment
+#### 📄 Applications
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+```http
+  POST /applications - Apply for a job (candidate only, 5 req/min)
+  GET /applications/job/:job_id - Get all applications for a job (employer only)
+  GET /applications/user/:candidate_user_id - Get a candidate’s own applications
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+#### 🛡️ Admin
 
-## Resources
+```http
+  GET /admin/metrics - Retrieve platform metrics (admin only)
+  GET /admin/match-candidates - Get the matching jobs as per candidates information with job information
+```
 
-Check out a few resources that may come in handy when working with NestJS:
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
 
-## Support
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
 
-## Stay in touch
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## 🐳 Docker Services
 
-## License
+- app	--> NestJS API Server
+- postgres --> PostgreSQL DB
+- pgadmin -->	DB inspection GUI (optional)
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+
+## 🛢️ ERD
+
+![Database](https://res.cloudinary.com/ddrvm4qt3/image/upload/v1751183421/drawSQL-image-export-2025-06-29_1_rfskxa.png)
+
+
+
+## 📥 Setup Instructions
+
+Clone the Repository 🚀
+
+```bash
+  git clone https://github.com/Asiful-Haque/HireSmart.git
+  cd hiresmart-backend
+```
+Configure Environment
+```bash
+  cp .env.example .env
+  # Fill in your DB, and JWT secrets
+```
+Run with Docker
+```bash
+  docker-compose up --build
+```
+The app will be available at:
+http://localhost:3000 (Though this endpoint is not working. You should see the api Reference part for actual working endpoints)
+
+## Contributing
+
+Contributions are always welcome!
+
+**Future enhancements**
+- Use Redis for 
+
+      1. Recent job listings (5-minute TTL)
+
+      2. Application stats per employer
+
+- Normalize the Database (Suggested ERD):
+![Database](https://res.cloudinary.com/ddrvm4qt3/image/upload/v1751183344/drawSQL-image-export-2025-06-29_2_zwfrn7.png)
+
+
+
+## Feedback
+
+If you have any feedback, please reach out to us at asiful35-2961@diu.edu.bd
+
+## Badges
+
+![AGPL License](https://img.shields.io/badge/nestjs-E0234E?style=for-the-badge&logo=nestjs&logoColor=white)
+![AGPL License](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
+![AGPL License](https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=JSON%20web%20tokens&logoColor=white)
+![AGPL License](https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white)
+![AGPL License](https://img.shields.io/badge/Docker%20Compose-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![AGPL License](https://img.shields.io/badge/Google_chrome-4285F4?style=for-the-badge&logo=Google-chrome&logoColor=white)
+![AGPL License](https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white) 
+![AGPL License](https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E)
+![AGPL License](https://img.shields.io/badge/json-5E5C5C?style=for-the-badge&logo=json&logoColor=white)
+
