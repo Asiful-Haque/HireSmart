@@ -1,4 +1,4 @@
-import { Controller, Post, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { MatchService } from './match.service';
 import { RolesGuard } from 'src/auth/roles.guard';
 import { Roles } from 'src/auth/roles.decorator';
@@ -9,7 +9,7 @@ import { AuthGuard } from '@nestjs/passport';
 @Roles('admin')
 export class MatchController {
   constructor(private readonly matchService: MatchService) {}
-  @Post('match-candidates')
+  @Get('match-candidates')
   async matchCandidatesToJobs() {
     return this.matchService.handleMatchCandidatesToJobs();
   }
