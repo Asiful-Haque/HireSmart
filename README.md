@@ -80,41 +80,41 @@ A simplified job platform backend built with **NestJS**, **PostgreSQL**, support
 #### 🔐 Auth
 
 ```http
-  POST /auth/register - Register a new user
-  POST /auth/login - Authenticate user and return a JWT token (5 req/min)
+POST /auth/register - Register a new user
+POST /auth/login - Authenticate user and return a JWT token (5 req/min)
 ```
 
 #### 👤 Users
 
 ```http
-  POST /users - Create a new user
-  GET /users/:email - Find user by email
+POST /users - Create a new user
+GET /users/:email - Find user by email
 ```
 
 #### 💼 Jobs
 
 ```http
-  POST /jobs - Create a new job post (employer only)
-  GET /jobs - Fetch all job posts
-  GET /jobs/:id - Fetch a single job post by ID
-  GET /jobs/employer/:employer_id - Fetch jobs created by a specific employer
-  PUT /jobs/:id - Update a job post (employer only)
-  DELETE /jobs/:id - Delete a job post (employer only)
+POST /jobs - Create a new job post (employer only)
+GET /jobs - Fetch all job posts
+GET /jobs/:id - Fetch a single job post by ID
+GET /jobs/employer/:employer_id - Fetch jobs created by a specific employer
+PUT /jobs/:id - Update a job post (employer only)
+DELETE /jobs/:id - Delete a job post (employer only)
 ```
 
 #### 📄 Applications
 
 ```http
-  POST /applications - Apply for a job (candidate only, 5 req/min)
-  GET /applications/job/:job_id - Get all applications for a job (employer only)
-  GET /applications/user/:candidate_user_id - Get a candidate’s own applications
+POST /applications - Apply for a job (candidate only, 5 req/min)
+GET /applications/job/:job_id - Get all applications for a job (employer only)
+GET /applications/user/:candidate_user_id - Get a candidate’s own applications
 ```
 
 #### 🛡️ Admin
 
 ```http
-  GET /admin/metrics - Retrieve platform metrics (admin only)
-  GET /admin/match-candidates - Get the matching jobs as per candidates information with job information
+GET /admin/metrics - Retrieve platform metrics (admin only)
+GET /admin/match-candidates - Get the matching jobs as per candidates information with job information
 ```
 
 
@@ -155,7 +155,7 @@ Run with Docker
 The app will be available at:
 http://localhost:3000 (Though this endpoint is not working. You should see the api Reference part for actual working endpoints)
 
-## Contributing
+## 🙌 Contributing
 
 Contributions are always welcome!
 
@@ -171,11 +171,11 @@ Contributions are always welcome!
 
 
 
-## Feedback
+## 🗣️ Feedback
 
 If you have any feedback, please reach out to us at asiful35-2961@diu.edu.bd
 
-## Badges
+## 🧿 Badges
 
 ![AGPL License](https://img.shields.io/badge/nestjs-E0234E?style=for-the-badge&logo=nestjs&logoColor=white)
 ![AGPL License](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
